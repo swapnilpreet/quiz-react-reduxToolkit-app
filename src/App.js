@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Settings from "./Pages/Settings";
+import Result from "./Pages/Result";
+import Question from "./Pages/Question";
+import { Box, Container } from "@mui/material";
+import ProtectedPage from "./Pages/ProtectedPage";
+import Loader from "./Pages/Loader";
+import { useSelector } from "react-redux";
 
-function App() {
+function App(){
+  const loader = useSelector((state) => state?.loaders?.loading);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Container maxWidth="sm">
+     {loader &&  <Loader />}
+      <Box textAlign={"center"} mt={5}>
+        <Routes>
+          <Route path="/" element={<Settings />} />
+          <Route path="/question" element={
+            <ProtectedPage>
+              <Question/>
+            </ProtectedPage>
+          }/>
+          <Route path="/score" element={<Result />} />
+        </Routes>
+      </Box>
+    </Container>
+    </>
   );
 }
 
